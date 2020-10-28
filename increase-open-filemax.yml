@@ -1,0 +1,57 @@
+--- 
+## this playbook require community such modules
+## ansible-galaxy collection install ansible.posix
+## ansible-galaxy collection install community.general
+- name: increase kernel open file max
+  hosts: web
+  vars: 
+    my_domain: ec2_user
+    sysctl_file_max: '524288'
+    user_file_max:  '262144'
+    user_nproc_max: '10240'
+
+  #  remote_user: root
+  become: true ## this includes usernames, groups, guid ranges etc
+
+  tasks:
+  - name: Set kernel file max
+    ansible.posix.sysctl:
+        name: fs.file-max
+        value: "{{ sysctl_file_max }}"
+        sysctl_set: yes
+        state: present
+        reload: yes
+
+###  - name: ensure kernel open max parameter to large
+###     lineinfile:
+###             path: /etc/sysctl.conf
+###             state: present
+###             line: 'fs.file-max = {{ sysctl_file_max }}'
+###
+  - name: ensure user soft file max limits the large number
+    pam_limits:
+        domain: "{{ my_domain }}"
+        limit_type: soft
+        limit_item: nofile
+        value:  "{{ user_file_max }}"
+
+  - name: ensure user hard file max limits the large number
+    pam_limits:
+        domain: "{{ my_domain }}"
+        limit_type: hard
+        limit_item: nofile
+        value:  "{{ user_file_max }}"
+  
+  - name: ensure user number of process soft max limits the large number
+    pam_limits:
+        domain: "{{ my_domain }}"
+        limit_type: soft
+        limit_item: nproc
+        value:  "{{ user_nproc_max }}"
+
+  - name: ensure user number of process hard max limits the large number
+    pam_limits:
+        domain: "{{ my_domain }}"
+        limit_type: hard
+        limit_item: nproc
+        value:  "{{ user_nproc_max }}"
