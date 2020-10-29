@@ -28,28 +28,28 @@
 ###             state: present
 ###             line: 'fs.file-max = {{ sysctl_file_max }}'
 ###
-  - name: ensure user soft file max limits the large number
+  - name: ensure user soft file max  the large number
     pam_limits:
         domain: "{{ my_domain }}"
         limit_type: soft
         limit_item: nofile
         value:  "{{ user_file_max }}"
 
-  - name: ensure user hard file max limits the large number
+  - name: ensure user hard file max the large number
     pam_limits:
         domain: "{{ my_domain }}"
         limit_type: hard
         limit_item: nofile
         value:  "{{ user_file_max }}"
   
-  - name: ensure user number of process soft max limits the large number
+  - name: ensure user number of process soft max the large number
     pam_limits:
         domain: "{{ my_domain }}"
         limit_type: soft
         limit_item: nproc
         value:  "{{ user_nproc_max }}"
 
-  - name: ensure user number of process hard max limits the large number
+  - name: ensure user number of process hard max the large number
     pam_limits:
         domain: "{{ my_domain }}"
         limit_type: hard
