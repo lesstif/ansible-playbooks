@@ -1,0 +1,31 @@
+---
+
+- name: Verify that auditors group exists
+  hosts: webservers
+  vars:
+    ## ATTENSION! 'groups' is reserved variables.  
+    os_groups: 
+        - developers
+        - auditors
+    dev_users:
+        - { name: service1, uid: 2001 }
+        - { name: service2, uid: 2002 }
+        - { name: service3, uid: 2003 }
+    auditor_users:
+        - auditor1
+  become: true ## this includes usernames, groups, guid ranges etc
+  
+  tasks:
+  - name: Verify that groups exists
+    group:
+       name: "{{ item }}"
+       state: present
+    loop: "{{ os_groups }}"
+  - name: add developer group's users
+    user:
+        name: "{{ item.name }}"
+        uid:  "{{ item.uid }}"
+        shell: /bin/zsh
+        state: present
+        group: developers
+    loop: "{{ dev_users }}"
