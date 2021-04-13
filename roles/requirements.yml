@@ -1,0 +1,8 @@
+# from Ansible Galaxy, using the latest version
+- src: geerlingguy.redis
+
+## ansible-galaxy collection install ansible.posix
+- src: ansible.posix.sysctl
+
+## ansible-galaxy collection install community.general
+- src: community.general.pam_limits
