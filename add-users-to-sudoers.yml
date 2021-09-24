@@ -20,7 +20,8 @@
       dest: /etc/sudoers
       state: present
       regexp: '^%wheel'
-      line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+      #line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+      line: '%wheel ALL=(ALL) ALL'
       validate: 'visudo -cf %s'
 
   - name: Add sudoers users to wheel group
