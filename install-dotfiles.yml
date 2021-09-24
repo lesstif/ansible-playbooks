@@ -1,7 +1,7 @@
 ---
 ## dotfile 설치
 
-- name: Verify that auditors group exists
+- name: install dotfiles
   hosts: localhost
   vars:
     stow: stow-2.3.1
@@ -42,4 +42,4 @@
         git clone https://github.com/lesstif/dotfiles.git ${HOME}/dotfiles
         cd ${HOME}/dotfiles
         bash ./install.sh
-    become: false ## 앞 부분에 있으면 에러 남
+    become: false ## 앞 부분에 있으면 에러 남 
