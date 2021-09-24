@@ -1,5 +1,6 @@
 --- 
 ## /etc/sudoers 에 사용자 추가
+## ansible-playbook add-users-to-sudoers.yml -K
 - name: install dotfiles
   hosts: localhost
   vars:
@@ -7,7 +8,7 @@
       - lesstif
 
   become: true
-  become_method: su ## sudoers 에 없어서 sudo 자체가 실패할 수 있음.
+  become_method: su ## sudoers 에 없어서 sudo 자체가 실패할 수 있어서 su 를 사용.
   
   tasks:
   - name: Make sure we have a 'wheel' group
