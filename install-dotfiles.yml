@@ -11,33 +11,35 @@
   tasks:
   - name: install base package
     ansible.builtin.package:
-    name:
-      - wget
-      - curl
-      - git
-      - vim
-    state: present
+        name:
+          - wget
+          - curl
+          - git
+          - vim
+          - unzip
+          - zip
+        state: latest
 
   - name: download GNU stow
     get_url:
-        url: http://ftp.gnu.org/gnu/stow/"{{ stow }}".tar.gz
+        url: http://ftp.gnu.org/gnu/stow/{{ stow }}.tar.gz
         dest: /tmp
 
   - name: unpacking GNU stow
     ansible.builtin.unarchive:
-        src: /tmp/"{{ stow }}".tar.gz
+        src: /tmp/{{ stow }}.tar.gz
         dest: /tmp
 
   - name: install GNU stow
     ansible.builtin.shell: |
-        cd /tmp/"{{ stow }}"
+        cd /tmp/{{ stow }}
         ./configure
         make
         make install
 
   - name: install dotfiles
     ansible.builtin.shell: |
-        git clone https://github.com/lesstif/dotfiles.git
-        cd dotfiles
+        git clone https://github.com/lesstif/dotfiles.git ${HOME}/dotfiles
+        cd ${HOME}/dotfiles
         bash ./install.sh
     become: false ## 앞 부분에 있으면 에러 남
